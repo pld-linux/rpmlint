@@ -19,6 +19,7 @@ Requires:	file
 Requires:	findutils
 Requires:	grep
 Requires:	python >= 1.5.2
+Requires:	python-rpm
 Requires:	rpm-devel
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
