@@ -48,7 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING ChangeLog INSTALL README*
+%doc ChangeLog README*
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/rpmlint
 %dir %{_sysconfdir}/rpmlint
