@@ -10,7 +10,6 @@ Source0:	http://people.mandrakesoft.com/~flepied/projects/rpmlint/dist/%{name}-%
 URL:		http://people.mandrakesoft.com/~flepied/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel
-BuildRequires:	rpm-pythonprov
 Requires:	/bin/bash
 Requires:	/lib/cpp
 Requires:	binutils
