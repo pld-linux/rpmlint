@@ -1,4 +1,3 @@
-%include	/usr/lib/rpm/macros.python
 Summary:	RPM correctness checker
 Summary(pl):	Narzêdzie do sprawdzania poprawno¶ci pakietów RPM
 Name:		rpmlint
