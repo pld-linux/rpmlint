@@ -1,21 +1,35 @@
 %include	/usr/lib/rpm/macros.python
-Summary:	Rpm correctness checker
+Summary:	RPM correctness checker
+Summary(pl):	Narzêdzie do sprawdzania poprawno¶ci pakietów RPM
 Name:		rpmlint
 Version:	0.46
 Release:	0.1
-Source0:	http://people.mandrakesoft.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
-URL:		http://people.mandrakesoft.com/~flepied/projects/rpmlint/
 License:	GPL
 Group:		Development/Building
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+Source0:	http://people.mandrakesoft.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
+URL:		http://people.mandrakesoft.com/~flepied/projects/rpmlint/
+BuildRequires:	python >= 1.5.2
+BuildRequires:	rpm-devel
 BuildRequires:	rpm-pythonprov
-BuildRequires:	python >= 1.5.2, rpm-devel, make
-Requires:	python >= 1.5.2, rpm-devel, binutils, file, findutils, cpio, /lib/cpp, grep, /bin/bash
+Requires:	/bin/bash
+Requires:	/lib/cpp
+Requires:	binutils
+Requires:	cpio
+Requires:	file
+Requires:	findutils
+Requires:	grep
+Requires:	python >= 1.5.2
+Requires:	rpm-devel
 BuildArch:	noarch
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 Rpmlint is a tool to check common errors on rpm packages. Binary and
 source packages can be checked.
+
+%description -l pl
+rpmlint to narzêdzie do sprawdzania pakietów RPM pod k±tem czêsto
+wystêpuj±cych b³êdów. Mo¿na sprawdzaæ pakiety ¼ród³owe i binarne.
 
 %prep
 %setup -q
@@ -25,6 +39,7 @@ source packages can be checked.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
@@ -36,5 +51,5 @@ rm -rf $RPM_BUILD_ROOT
 %doc COPYING ChangeLog INSTALL README*
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/rpmlint
-%config(noreplace) %{_sysconfdir}/rpmlint/config
 %dir %{_sysconfdir}/rpmlint
+%config(noreplace) %{_sysconfdir}/rpmlint/config
