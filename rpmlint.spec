@@ -7,6 +7,7 @@ Release:	0.1
 License:	GPL
 Group:		Development/Building
 Source0:	http://people.mandrakesoft.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
+# Source0-md5:	aaf8b80af83b9dac7098b3b6ac0bf2a0
 URL:		http://people.mandrakesoft.com/~flepied/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel
