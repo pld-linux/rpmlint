@@ -52,4 +52,4 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/*
 %{_datadir}/rpmlint
 %dir %{_sysconfdir}/rpmlint
-%config(noreplace) %{_sysconfdir}/rpmlint/config
+%config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rpmlint/config
