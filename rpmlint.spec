@@ -1,12 +1,12 @@
 Summary:	RPM correctness checker
 Summary(pl):	Narzêdzie do sprawdzania poprawno¶ci pakietów RPM
 Name:		rpmlint
-Version:	0.61
+Version:	0.63
 Release:	1
 License:	GPL
 Group:		Development/Building
 Source0:	http://people.mandrakesoft.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
-# Source0-md5:	1e43509038848f1d8256a7ab2efe527b
+# Source0-md5:	c0db29ed833a6f8b42a9d9397a67756a
 URL:		http://people.mandrakesoft.com/~flepied/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel
