@@ -5,9 +5,9 @@ Version:	0.69
 Release:	3
 License:	GPL
 Group:		Development/Building
-Source0:	http://people.mandrakesoft.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
+Source0:	http://people.mandriva.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
 # Source0-md5:	5e5bc5e2d493e35e300b7498824fee1d
-URL:		http://people.mandrakesoft.com/~flepied/projects/rpmlint/
+URL:		http://people.mandriva.com/~flepied/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel >= 4.4.1
 Requires:	/bin/bash
