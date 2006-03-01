@@ -1,9 +1,10 @@
 produced using:
-awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
+sed -e "s,',\\\\',g" ../../PLD-doc/license-tags.txt | awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}'
 
---- rpmlint-0.71/TagsCheck.py~	2006-03-01 00:00:07.000000000 +0200
-+++ rpmlint-0.71/TagsCheck.py	2006-03-01 23:51:36.000000000 +0200
-@@ -106,50 +106,697 @@
+diff -u rpmlint-0.71/TagsCheck.py ./TagsCheck.py
+--- rpmlint-0.71/TagsCheck.py	2006-03-01 23:51:36.000000000 +0200
++++ ./TagsCheck.py	2006-03-01 23:59:53.000000000 +0200
+@@ -106,50 +106,687 @@
      'X11/Window Managers/Tools',
      )
  
@@ -89,7 +90,7 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'BSD-like or GPL',
 +    'BSD-like (or GPLv2 for core - see LICENSE)',
 +    'BSD-like/Public Domain (see source)',
-+    'BSD-like + restricted vendor's name usage (see copyright file)',
++    'BSD-like + restricted vendor\'s name usage (see copyright file)',
 +    'BSD-like (see COPYING)',
 +    'BSD-like (see COPYRIGHT)',
 +    'BSD-like (see docs)',
@@ -115,11 +116,6 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'CCA v2.0',
 +    'CDDL v1.0',
 +    'Charityware',
-+    'CHECK FIRST!',
-+    'check first if it's GPL',
-+    'check first if it's really GPL',
-+    'Check /usr/share/doc/cedega/copyright',
-+    'Check with djb@koobera.math.uic.edu',
 +    'chntpw',
 +    'CNRI',
 +    'CNRI OPEN SOURCE LICENSE',
@@ -171,7 +167,7 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'Design Science',
 +    'Design Science License (DSL)',
 +    'Different per subpackage',
-+    'Digital's paranoid but open-source license',
++    'Digital\'s paranoid but open-source license',
 +    'distributable',
 +    'Distributable',
 +    'distributable (BSD, GPL, LGPL, Artistic; see COPYING)',
@@ -196,7 +192,7 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'distributable (see README)',
 +    'distributable (see README.gz)',
 +    'distributable (see readme.txt)',
-+    'Distributable with author's permission',
++    'Distributable with author\'s permission',
 +    'distributable with free-unices distros, free for non-profit non-commercial purposes',
 +    'distributable without modifications',
 +    'distribution restricted (http://www.adobe.com/products/acrobat/distribute.html)',
@@ -209,10 +205,6 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'dual licensed using BSD-Style and LGPL',
 +    'dunno',
 +    'Eclipse Public License',
-+    '- (enter Apache/GPL/LGPL/BSD/BSD-like/other license name here)',
-+    '- (enter GPL/GPL v2/LGPL/BSD/BSD-like/other license name here)',
-+    '(enter GPL/LGPL/BSD/BSD-like/Artistic/other license name here)',
-+    '- (enter GPL/LGPL/BSD/BSD-like/other license name here)',
 +    'EPL v1.0',
 +    'Eric Bischoff, Mark Galassi, Jochem Huhmann, Steve Cheng, and Frederik Fouvry; GPL 2.0',
 +    'extended GPL v2',
@@ -370,7 +362,6 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'GPL v2 and LGPL',
 +    'GPL v2/Artistic',
 +    'GPL v.2/BSD/LGPL',
-+    'GPL v2 (CHECK IT FIRST, could be ASL)',
 +    'GPL v2 (except for images - see COPYING)',
 +    'GPL v2, FDL',
 +    'GPL v2 for main code, BSD-like for fec.c',
@@ -390,7 +381,7 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'GPL v2+ or MPL v1.1',
 +    'GPL v2 or see LICENCE',
 +    'GPL v2 + others - see README for details',
-+    'GPL v2+, portions on Intel's BSD-like license (see README.*)',
++    'GPL v2+, portions on Intel\'s BSD-like license (see README.*)',
 +    'GPL v2. See COPYRIGHT.svm.cpp for the copyright of the svm C++ code.',
 +    'GPL v2+ (see LICENSE)',
 +    'GPL v2+, with explicit permission to link against Qt',
@@ -429,7 +420,7 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'Industrial Light & Magic',
 +    'Interbase Public License 1.0',
 +    'IPL',
-+    'It's free, but requires ads of mks.com.pl on your WWW (see licencja.txt)',
++    'It\'s free, but requires ads of mks.com.pl on your WWW (see licencja.txt)',
 +    'Kohnian',
 +    'Kupu',
 +    'LaTeX Project Public License',
@@ -674,7 +665,7 @@ awk -vq="'" '{printf("    %s%s%s,\n", q, $0, q)}' PLD-doc/license-tags.txt
 +    'Ruby',
 +    'Ruby-alike',
 +    'Ruby License',
-+    'Ruby's',
++    'Ruby\'s',
 +    'SCSL',
 +    'see LICENSE',
 +    'see LICENSE file (redistribution restricted)',
