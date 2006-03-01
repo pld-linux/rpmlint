@@ -9,6 +9,7 @@ Source0:	http://people.mandriva.com/~flepied/projects/rpmlint/dist/%{name}-%{ver
 # Source0-md5:	9e7645ee79bfc75540c885f05dca0751
 Patch0:		%{name}-groups.patch
 Patch1:		%{name}-config.patch
+Patch2:		%{name}-licenses.patch
 URL:		http://people.mandriva.com/~flepied/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel >= 4.4.1
@@ -19,8 +20,8 @@ Requires:	cpio
 Requires:	file
 Requires:	findutils
 Requires:	grep
-Requires:	python-rpm
 Requires:	python >= 1.5.2
+Requires:	python-rpm
 Requires:	rpm-devel
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -37,6 +38,7 @@ wystêpuj±cych b³êdów. Mo¿na sprawdzaæ pakiety ¼ród³owe i binarne.
 %setup -q
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 %build
 %{__make}
