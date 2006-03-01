@@ -1,0 +1,33 @@
+--- rpmlint-0.71/TagsCheck.py~	2006-02-28 23:56:18.000000000 +0200
++++ rpmlint-0.71/TagsCheck.py	2006-02-28 23:59:10.000000000 +0200
+@@ -152,7 +152,7 @@
+     'Charityware'
+     )
+ 
+-DEFAULT_PACKAGER = '@mandriva.com|@mandriva.org|http://www.mandrivaexpert.com'
++DEFAULT_PACKAGER = 'PLD bug tracking system ( http://bugs.pld-linux.org/ )'
+ 
+ BAD_WORDS = {
+     'alot': 'a lot',
+@@ -412,10 +412,11 @@
+     }
+ DEFAULT_FORBIDDEN_WORDS_REGEX='mandrake'
+ DEFAULT_VALID_BUILDHOST='\.mandriva\.com$|\.mandriva\.org$'
++DEFAULT_VALID_BUILDHOST='\.pld-linux\.org$'
+ DEFAULT_INVALID_REQUIRES=('^is$', '^not$', '^owned$', '^by$', '^any$', '^package$', '^libsafe\.so\.')
+ DEFAULT_INVALID_URL='mandrake'
+ 
+-distribution=Config.getOption("Distribution", "Mandriva Linux")
++distribution=Config.getOption("Distribution", "PLD")
+ VALID_GROUPS=Config.getOption('ValidGroups', DEFAULT_VALID_GROUPS)
+ VALID_LICENSES=Config.getOption('ValidLicenses', DEFAULT_VALID_LICENSES)
+ INVALID_REQUIRES=map(lambda x: re.compile(x), Config.getOption('InvalidRequires', DEFAULT_INVALID_REQUIRES))
+@@ -424,7 +425,7 @@
+ changelog_version_regex=re.compile('[^>]([^ >]+)\s*$')
+ release_ext=Config.getOption('ReleaseExtension', 'mdk')
+ extension_regex=release_ext and re.compile(release_ext + '$')
+-use_version_in_changelog=Config.getOption('UseVersionInChangelog', 1)
++use_version_in_changelog=Config.getOption('UseVersionInChangelog', 0)
+ devel_regex=re.compile('(.*)-devel')
+ devel_number_regex=re.compile('(.*?)([0-9.]+)(_[0-9.]+)?-devel')
+ lib_devel_number_regex=re.compile('^lib(.*?)([0-9.]+)(_[0-9.]+)?-devel')
