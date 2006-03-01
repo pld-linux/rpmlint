@@ -7,6 +7,8 @@ License:	GPL v2
 Group:		Development/Building
 Source0:	http://people.mandriva.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
 # Source0-md5:	9e7645ee79bfc75540c885f05dca0751
+Patch0:		%{name}-groups.patch
+Patch1:		%{name}-config.patch
 URL:		http://people.mandriva.com/~flepied/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel >= 4.4.1
@@ -33,6 +35,8 @@ wystêpuj±cych b³êdów. Mo¿na sprawdzaæ pakiety ¼ród³owe i binarne.
 
 %prep
 %setup -q
+%patch0 -p1
+%patch1 -p1
 
 %build
 %{__make}
