@@ -1,5 +1,5 @@
 Summary:	RPM correctness checker
-Summary(pl.UTF-8):   Narzędzie do sprawdzania poprawności pakietów RPM
+Summary(pl.UTF-8):	Narzędzie do sprawdzania poprawności pakietów RPM
 Name:		rpmlint
 Version:	0.71
 Release:	1
