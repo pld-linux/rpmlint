@@ -1,5 +1,5 @@
 Summary:	RPM correctness checker
-Summary(pl):	Narzêdzie do sprawdzania poprawno¶ci pakietów RPM
+Summary(pl.UTF-8):   NarzÄ™dzie do sprawdzania poprawnoÅ›ci pakietÃ³w RPM
 Name:		rpmlint
 Version:	0.71
 Release:	1
@@ -30,9 +30,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 Rpmlint is a tool to check common errors on rpm packages. Binary and
 source packages can be checked.
 
-%description -l pl
-rpmlint to narzêdzie do sprawdzania pakietów RPM pod k±tem czêsto
-wystêpuj±cych b³êdów. Mo¿na sprawdzaæ pakiety ¼ród³owe i binarne.
+%description -l pl.UTF-8
+rpmlint to narzÄ™dzie do sprawdzania pakietÃ³w RPM pod kÄ…tem czÄ™sto
+wystÄ™pujÄ…cych bÅ‚Ä™dÃ³w. MoÅ¼na sprawdzaÄ‡ pakiety ÅºrÃ³dÅ‚owe i binarne.
 
 %prep
 %setup -q
