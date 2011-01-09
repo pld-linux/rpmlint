@@ -1,5 +1,5 @@
---- rpmlint-1.0/config	2011-01-09 18:33:02.713646528 +0200
-+++ rpmlint-1.0/config	2011-01-09 19:00:18.531839097 +0200
+--- rpmlint-1.0/config	2011-01-09 19:00:18.531839097 +0200
++++ rpmlint-1.0/config	2011-01-09 21:14:41.284427355 +0200
 @@ -27,7 +27,7 @@
  # When checking that various files that should be compressed are
  # indeed compressed, look for this filename extension (no dot here).
@@ -18,3 +18,7 @@
  
  # Architecture dependent paths in which packages are allowed to install files
  # even if they are all non-binary.
+@@ -201,0 +202,3 @@
++
++# In PLD Linux, macros are not expanded in %changelog
++addFilter("W: macro-in-%changelog")
