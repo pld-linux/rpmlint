@@ -1,5 +1,14 @@
---- rpmlint-1.0/config~	2010-03-02 19:39:00.000000000 +0200
-+++ rpmlint-1.0/config	2011-01-09 18:33:02.713646528 +0200
+--- rpmlint-1.0/config	2011-01-09 18:33:02.713646528 +0200
++++ rpmlint-1.0/config	2011-01-09 19:00:18.531839097 +0200
+@@ -27,7 +27,7 @@
+ # When checking that various files that should be compressed are
+ # indeed compressed, look for this filename extension (no dot here).
+ # Type: string, default: "bz2"
+-#setOption("CompressExtension", "bz2")
++setOption("CompressExtension", "gz")
+ 
+ # Exception list for dangling symlink checks.  The first in each pair
+ # is a regexp, and the second the package in which the target of the
 @@ -156,7 +156,7 @@
  
  # Whether %changelog entries should contain a version.
