@@ -1,28 +1,32 @@
-Summary:	RPM correctness checker
-Summary(pl.UTF-8):	Narzędzie do sprawdzania poprawności pakietów RPM
+Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
-Version:	0.71
-Release:	1
+Version:	1.0
+Release:	0.1
 License:	GPL v2
 Group:		Development/Building
-Source0:	http://people.mandriva.com/~flepied/projects/rpmlint/dist/%{name}-%{version}.tar.bz2
-# Source0-md5:	9e7645ee79bfc75540c885f05dca0751
+Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.bz2
+# Source0-md5:	c27b574f3e70a3ffeb8eeb550e597c2d
 Patch0:		%{name}-groups.patch
 Patch1:		%{name}-config.patch
 Patch2:		%{name}-licenses.patch
-URL:		http://people.mandriva.com/~flepied/projects/rpmlint/
+URL:		http://rpmlint.zarb.org/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	rpm-devel >= 4.4.1
 Requires:	/bin/bash
 Requires:	/lib/cpp
 Requires:	binutils
+Requires:	bzip2
 Requires:	cpio
+Requires:	desktop-file-utils
 Requires:	file
 Requires:	findutils
 Requires:	grep
+Requires:	gzip
 Requires:	python >= 1.5.2
+Requires:	python-magic
+Requires:	python-pyenchant
 Requires:	python-rpm
-Requires:	rpm-devel
+Requires:	xz
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -34,6 +38,15 @@ source packages can be checked.
 rpmlint to narzędzie do sprawdzania pakietów RPM pod kątem często
 występujących błędów. Można sprawdzać pakiety źródłowe i binarne.
 
+%package -n bash-completion-%{name}
+Summary:	bash-completion for rpmlint
+Group:		Applications/Shells
+Requires:	%{name} = %{version}-%{release}
+Requires:	bash-completion
+
+%description -n bash-completion-%{name}
+bash-completion for rpmlint.
+
 %prep
 %setup -q
 %patch0 -p1
@@ -41,13 +54,26 @@ występujących błędów. Można sprawdzać pakiety źródłowe i binarne.
 %patch2 -p1
 
 %build
-%{__make}
+# Create GROUPS for -groups.patch
+rpm --qf '%{_docdir}/%{N}-%{V}/groups.gz' -q rpm | xargs gzip -dc | awk '/^[A-Z].*/ { print }' > GROUPS
+
+%{__make} \
+	COMPILE_PYC=1
 
 %install
 rm -rf $RPM_BUILD_ROOT
-
 %{__make} install \
+	ETCDIR=%{_sysconfdir} \
+	MANDIR=%{_mandir} \
+	LIBDIR=%{_datadir}/%{name} \
+	BINDIR=%{_bindir} \
 	DESTDIR=$RPM_BUILD_ROOT
+
+cp -a GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}
+
+# perhaps install to python dir for simplicity of spec
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/__*__.py
+rm -f $RPM_BUILD_ROOT%{_datadir}/%{name}/[A-Z]*.py
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -55,7 +81,16 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog README*
-%attr(755,root,root) %{_bindir}/*
-%{_datadir}/rpmlint
+%attr(755,root,root) %{_bindir}/rpmdiff
+%attr(755,root,root) %{_bindir}/rpmlint
+%{_mandir}/man1/rpmlint.1*
+%dir %{_datadir}/rpmlint
+%{_datadir}/rpmlint/*.py[co]
+%{_datadir}/rpmlint/rpmlint.py
+%{_datadir}/rpmlint/GROUPS
 %dir %{_sysconfdir}/rpmlint
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rpmlint/config
+
+%files -n bash-completion-%{name}
+%defattr(644,root,root,755)
+/etc/bash_completion.d/rpmlint
