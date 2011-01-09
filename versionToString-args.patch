@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "/usr/share/python2.7/site-packages/rpmlint/rpmlint.py", line 364, in <module>
+  File "/usr/share/python2.7/site-packages/rpmlint/rpmlint.py", line 159, in main
+  File "/usr/share/python2.7/site-packages/rpmlint/rpmlint.py", line 219, in runChecks
+  File "TagsCheck.py", line 650, in check
+TypeError: versionToString() takes exactly 1 argument (3 given)
+
+--- rpmlint-1.0/TagsCheck.py~	2011-01-09 19:47:00.271159953 +0200
++++ rpmlint-1.0/TagsCheck.py	2011-01-09 20:56:11.377943725 +0200
+@@ -646,8 +646,8 @@
+                             printWarning(pkg,
+                                          'incoherent-version-dependency-on',
+                                          base_or_libs,
+-                                         Pkg.versionToString(dep[2][0],
+-                                                             dep[2][1], None),
++                                         Pkg.versionToString((dep[2][0],
++                                                             dep[2][1], None)),
+                                          sexp)
+                     res = devel_number_regex.search(name)
+                     if not res:
