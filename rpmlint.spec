@@ -1,13 +1,18 @@
+#
+# Conditional build:
+%bcond_without	tests		# build without tests
+
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
 Version:	1.0
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Development/Building
 Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.bz2
 # Source0-md5:	c27b574f3e70a3ffeb8eeb550e597c2d
+Source1:	%{name}.config
+Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
-Patch1:		%{name}-config.patch
 Patch2:		%{name}-licenses.patch
 Patch3:		rpm-compat.patch
 Patch4:		pythonpath.patch
@@ -52,11 +57,13 @@ bash-completion for rpmlint.
 %prep
 %setup -q
 %patch0 -p1
-%patch1 -p1
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+
+cp -p config config.example
+cp -p %{SOURCE3} config
 
 cat <<'EOF' > rpmlint
 #!/bin/sh
@@ -71,6 +78,10 @@ rpm --qf '%{_docdir}/%{N}-%{V}/groups.gz' -q rpm | xargs gzip -dc | awk '/^[A-Z]
 %{__make} \
 	COMPILE_PYC=1
 
+%if %{with tests}
+%{__make} check
+%endif
+
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
@@ -82,6 +93,7 @@ rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -a GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/config
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
@@ -92,16 +104,17 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README*
+%doc AUTHORS ChangeLog README* config.example
 %dir %{_sysconfdir}/rpmlint
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rpmlint/config
 %attr(755,root,root) %{_bindir}/rpmdiff
 %attr(755,root,root) %{_bindir}/rpmlint
 %{_mandir}/man1/rpmlint.1*
-%dir %{_datadir}/rpmlint
-%{_datadir}/rpmlint/GROUPS
-%dir %{py_sitescriptdir}/rpmlint
-%{py_sitescriptdir}/rpmlint/*.py[co]
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/GROUPS
+%{_datadir}/%{name}/config
+%dir %{py_sitescriptdir}/%{name}
+%{py_sitescriptdir}/%{name}/*.py[co]
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)
