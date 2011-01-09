@@ -1,0 +1,13 @@
+--- rpmlint-1.0/rpmdiff~	2009-11-03 21:21:48.000000000 +0200
++++ rpmlint-1.0/rpmdiff	2011-01-09 19:35:20.929627311 +0200
+@@ -27,9 +27,7 @@
+ 
+ import rpm
+ 
+-if os.path.isdir("/usr/share/rpmlint"):
+-    site.addsitedir("/usr/share/rpmlint")
+-import Pkg
++from rpmlint.Pkg import Pkg
+ 
+ 
+ class Rpmdiff:
