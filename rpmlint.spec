@@ -18,6 +18,9 @@ Patch3:		rpm-compat.patch
 Patch4:		pythonpath.patch
 URL:		http://rpmlint.zarb.org/
 BuildRequires:	python >= 1.5.2
+BuildRequires:	python-modules
+BuildRequires:	python-rpm
+BuildRequires:	rpm-pythonprov
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	/bin/bash
