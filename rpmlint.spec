@@ -4,12 +4,12 @@
 
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
-Version:	1.0
-Release:	4
+Version:	1.1
+Release:	1
 License:	GPL v2
 Group:		Development/Building
-Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.bz2
-# Source0-md5:	c27b574f3e70a3ffeb8eeb550e597c2d
+Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.xz
+# Source0-md5:	29a35c13cc2f16325b404820e2986a88
 Source1:	%{name}.config
 Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
@@ -19,6 +19,8 @@ Patch4:		pythonpath.patch
 Patch5:		versionToString-args.patch
 URL:		http://rpmlint.zarb.org/
 BuildRequires:	python >= 1.5.2
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
 Requires:	/bin/bash
 Requires:	/lib/cpp
 Requires:	binutils
