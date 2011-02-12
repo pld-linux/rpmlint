@@ -16,7 +16,6 @@ Patch0:		%{name}-groups.patch
 Patch2:		%{name}-licenses.patch
 Patch3:		rpm-compat.patch
 Patch4:		pythonpath.patch
-Patch5:		versionToString-args.patch
 URL:		http://rpmlint.zarb.org/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	tar >= 1:1.22
@@ -62,7 +61,6 @@ bash-completion for rpmlint.
 %patch2 -p1
 %patch3 -p1
 %patch4 -p1
-%patch5 -p1
 
 cp -p config config.example
 cp -p %{SOURCE3} config
