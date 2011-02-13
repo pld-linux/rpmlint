@@ -5,7 +5,7 @@
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
 Version:	1.1
-Release:	2
+Release:	3
 License:	GPL v2
 Group:		Development/Building
 Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.xz
@@ -68,7 +68,10 @@ bash-completion for rpmlint.
 cp -p config config.example
 cp -p %{SOURCE3} config
 
-cat <<'EOF' > %{name}.sh
+mv %{name} %{name}.py
+%{__sed} -i -e 's,python ./rpmlint,./rpmlint.py,' test.sh
+
+cat <<'EOF' > %{name}
 #!/bin/sh
 exec python -tt -u -O %{py_sitescriptdir}/%{name}/rpmlint.pyc "$@"
 EOF
@@ -94,7 +97,7 @@ rm -rf $RPM_BUILD_ROOT
 	BINDIR=%{_bindir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -p %{name}.sh $RPM_BUILD_ROOT%{_bindir}/%{name}
+install -p %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -a GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}
 cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/config
