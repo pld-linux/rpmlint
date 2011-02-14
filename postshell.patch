@@ -1,0 +1,10 @@
+--- rpmlint-1.1/PostCheck.py~	2010-03-30 23:34:48.000000000 +0300
++++ rpmlint-1.1/PostCheck.py	2011-02-14 09:10:42.107466196 +0200
+@@ -27,6 +27,7 @@
+                         '/sbin/sash',
+                         '/usr/bin/perl',
+                         '/sbin/ldconfig',
++                        '/sbin/postshell',
+                         )
+ 
+ DEFAULT_EMPTY_SHELLS = ('/sbin/ldconfig',
