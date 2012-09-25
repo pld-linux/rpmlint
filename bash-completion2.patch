@@ -1,0 +1,13 @@
+--- rpmlint-1.4/Makefile~	2011-12-04 17:23:10.000000000 +0100
++++ rpmlint-1.4/Makefile	2012-09-25 23:00:35.363182328 +0200
+@@ -46,8 +46,8 @@
+ 	cp -p config $(DESTDIR)$(ETCDIR)/$(PACKAGE)
+ 	compdir=`pkg-config --variable=completionsdir bash-completion 2>/dev/null` ; \
+ 	if [ "x$$compdir" = "x" ] ; then \
+-		mkdir -p $(DESTDIR)$(ETCDIR)/bash_completion.d ; \
+-		cp -p rpmlint.bash-completion $(DESTDIR)$(ETCDIR)/bash_completion.d/rpmlint ; \
++		mkdir -p $(DESTDIR)/usr/share/bash-completion/completions ; \
++		cp -p rpmlint.bash-completion $(DESTDIR)/usr/share/bash-completion/completions/rpmlint ; \
+ 	else \
+ 		mkdir -p $(DESTDIR)$$compdir ; \
+ 		cp -p rpmlint.bash-completion $(DESTDIR)$$compdir/rpmlint ; \
