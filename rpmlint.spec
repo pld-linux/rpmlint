@@ -5,7 +5,7 @@
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
 Version:	1.4
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Development/Building
 Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.xz
@@ -15,8 +15,8 @@ Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
 Patch1:		pythonpath.patch
 Patch2:		%{name}-licenses.patch
-Patch3:		rpm-compat.patch
-Patch4:		postshell.patch
+Patch3:		postshell.patch
+Patch4:		rpm5.patch
 URL:		http://rpmlint.zarb.org/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	python-modules
@@ -127,4 +127,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)
-/etc/bash_completion.d/rpmlint
+%{_datadir}/bash-completion/completions/rpmdiff
+%{_datadir}/bash-completion/completions/rpmlint
