@@ -20,7 +20,7 @@ Patch4:		rpm5.patch
 URL:		http://rpmlint.zarb.org/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	python-modules
-BuildRequires:	python-rpm
+BuildRequires:	python-rpm >= 5.4.10-12
 BuildRequires:	rpm-pythonprov
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -37,7 +37,7 @@ Requires:	gzip
 Requires:	python >= 1.5.2
 Requires:	python-magic
 Requires:	python-pyenchant
-Requires:	python-rpm
+Requires:	python-rpm >= 5.4.10-12
 Requires:	xz
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
