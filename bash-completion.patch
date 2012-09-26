@@ -1,0 +1,20 @@
+--- rpmlint-1.4/Makefile~	2011-12-04 17:23:10.000000000 +0100
++++ rpmlint-1.4/Makefile	2012-09-26 10:42:17.091754067 +0200
+@@ -44,15 +44,8 @@
+ 	cp -p *.py *.pyo $(DESTDIR)$(LIBDIR)
+ 	cp -p rpmlint rpmdiff $(DESTDIR)$(BINDIR)
+ 	cp -p config $(DESTDIR)$(ETCDIR)/$(PACKAGE)
+-	compdir=`pkg-config --variable=completionsdir bash-completion 2>/dev/null` ; \
+-	if [ "x$$compdir" = "x" ] ; then \
+-		mkdir -p $(DESTDIR)$(ETCDIR)/bash_completion.d ; \
+-		cp -p rpmlint.bash-completion $(DESTDIR)$(ETCDIR)/bash_completion.d/rpmlint ; \
+-	else \
+-		mkdir -p $(DESTDIR)$$compdir ; \
+-		cp -p rpmlint.bash-completion $(DESTDIR)$$compdir/rpmlint ; \
+-		ln -s rpmlint $(DESTDIR)$$compdir/rpmdiff ; \
+-	fi
++	mkdir -p $(DESTDIR)$(ETCDIR)/bash_completion.d ; \
++	cp -p rpmlint.bash-completion $(DESTDIR)$(ETCDIR)/bash_completion.d/rpmlint ; \
+ 	cp -p rpmlint.1 $(DESTDIR)$(MANDIR)/man1/rpmlint.1
+ 
+ verify:
