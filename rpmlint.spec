@@ -4,12 +4,12 @@
 
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
-Version:	1.4
-Release:	5
+Version:	1.5
+Release:	1
 License:	GPL v2
 Group:		Development/Building
-Source0:	http://rpmlint.zarb.org/download/%{name}-%{version}.tar.xz
-# Source0-md5:	bfbdd78847ca2b253c2e4e65c41f49e2
+Source0:	http://downloads.sourceforge.net/rpmlint/%{name}-%{version}.tar.xz
+# Source0-md5:	d7e82d97211ba0128ef864c7eac2fab8
 Source1:	%{name}.config
 Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
@@ -115,7 +115,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS ChangeLog README* config.example
+%doc ChangeLog README* config.example
 %dir %{_sysconfdir}/rpmlint
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rpmlint/config
 %attr(755,root,root) %{_bindir}/rpmdiff
