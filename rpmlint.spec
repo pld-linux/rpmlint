@@ -19,7 +19,7 @@ Patch3:		postshell.patch
 Patch4:		rpm5.patch
 Patch5:		bash-completion.patch
 URL:		http://sourceforge.net/projects/rpmlint/
-BuildRequires:	python >= 1.5.2
+BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules
 BuildRequires:	python-rpm >= 5.4.10-12
 BuildRequires:	rpm-pythonprov
