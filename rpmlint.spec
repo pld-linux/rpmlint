@@ -4,12 +4,12 @@
 
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
-Version:	1.5
+Version:	1.6
 Release:	1
 License:	GPL v2
 Group:		Development/Building
 Source0:	http://downloads.sourceforge.net/rpmlint/%{name}-%{version}.tar.xz
-# Source0-md5:	d7e82d97211ba0128ef864c7eac2fab8
+# Source0-md5:	ad09ff960c7f3561af59f7886f3619ef
 Source1:	%{name}.config
 Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
@@ -18,11 +18,12 @@ Patch2:		%{name}-licenses.patch
 Patch3:		postshell.patch
 Patch4:		rpm5.patch
 Patch5:		bash-completion.patch
-URL:		http://rpmlint.zarb.org/
+URL:		http://sourceforge.net/projects/rpmlint/
 BuildRequires:	python >= 1.5.2
 BuildRequires:	python-modules
 BuildRequires:	python-rpm >= 5.4.10-12
 BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.673
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	/bin/bash
@@ -55,7 +56,7 @@ występujących błędów. Można sprawdzać pakiety źródłowe i binarne.
 Summary:	bash-completion for rpmlint
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
-Requires:	bash-completion
+Requires:	bash-completion >= 2.0
 
 %description -n bash-completion-%{name}
 bash-completion for rpmlint.
@@ -86,6 +87,7 @@ touch __init__.py
 rpm --qf '%{_docdir}/%{N}-%{V}/groups.gz' -q rpm | xargs gzip -dc | awk '/^[A-Z].*/ { print }' > GROUPS
 
 %{__make} \
+	bash_compdir=%{bash_compdir} \
 	COMPILE_PYC=1
 
 %if %{with tests}
@@ -103,8 +105,8 @@ rm -rf $RPM_BUILD_ROOT
 
 install -p %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp -a GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp -a %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/config
+cp -p GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}
+cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/config
 
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
@@ -120,6 +122,7 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rpmlint/config
 %attr(755,root,root) %{_bindir}/rpmdiff
 %attr(755,root,root) %{_bindir}/rpmlint
+%{_mandir}/man1/rpmdiff.1*
 %{_mandir}/man1/rpmlint.1*
 %dir %{_datadir}/%{name}
 %{_datadir}/%{name}/GROUPS
@@ -129,4 +132,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)
-/etc/bash_completion.d/rpmlint
+%{bash_compdir}/rpmlint
+%{bash_compdir}/rpmdiff
