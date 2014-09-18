@@ -84,7 +84,9 @@ touch __init__.py
 
 %build
 # Create GROUPS for -groups.patch
-rpm --qf '%{_docdir}/%{N}-%{V}/groups.gz' -q rpm | xargs gzip -dc | awk '/^[A-Z].*/ { print }' > GROUPS
+rpmnv=$(rpm -q rpm --qf '%{N}-%{V}')
+gzip -dc "%{_docdir}/$rpmnv/groups.gz" | awk '/^[A-Z].*/ { print }' > GROUPS
+test -s GROUPS
 
 %{__make} \
 	bash_compdir=%{bash_compdir} \
