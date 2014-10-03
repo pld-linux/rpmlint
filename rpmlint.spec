@@ -18,6 +18,7 @@ Patch2:		%{name}-licenses.patch
 Patch3:		postshell.patch
 Patch4:		rpm5.patch
 Patch5:		bash-completion.patch
+Patch6:		revert-9f71923e.patch
 URL:		http://sourceforge.net/projects/rpmlint/
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules
@@ -69,6 +70,7 @@ bash-completion for rpmlint.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p1
 
 cp -p config config.example
 cp -p %{SOURCE3} config
