@@ -22,7 +22,7 @@ Patch6:		revert-9f71923e.patch
 URL:		http://sourceforge.net/projects/rpmlint/
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules
-BuildRequires:	python-rpm >= 5.4.10-12
+%{?with_tests:BuildRequires:	python-rpm >= 5.4.10-12}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.673
 BuildRequires:	tar >= 1:1.22
