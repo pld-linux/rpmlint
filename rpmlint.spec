@@ -5,7 +5,7 @@
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
 Version:	1.7
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Development/Building
 Source0:	http://downloads.sourceforge.net/rpmlint/%{name}-%{version}.tar.xz
@@ -101,6 +101,7 @@ test -s GROUPS
 %install
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
+	bash_compdir=%{bash_compdir} \
 	ETCDIR=%{_sysconfdir} \
 	MANDIR=%{_mandir} \
 	LIBDIR=%{py_sitescriptdir}/%{name} \
