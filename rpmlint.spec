@@ -4,12 +4,12 @@
 
 Summary:	Tool for checking common errors in RPM packages
 Name:		rpmlint
-Version:	1.6
+Version:	1.7
 Release:	1
 License:	GPL v2
 Group:		Development/Building
 Source0:	http://downloads.sourceforge.net/rpmlint/%{name}-%{version}.tar.xz
-# Source0-md5:	ad09ff960c7f3561af59f7886f3619ef
+# Source0-md5:	0b78c2fa4a98c6f660003a679ad6ea90
 Source1:	%{name}.config
 Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch

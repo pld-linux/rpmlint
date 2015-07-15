@@ -1,11 +1,11 @@
---- rpmlint-1.0/Pkg.py~	2010-06-05 22:55:53.000000000 +0300
-+++ rpmlint-1.0/Pkg.py	2011-01-09 18:37:55.913942986 +0200
-@@ -176,7 +176,7 @@
+--- rpmlint-1.7/Pkg.py~	2015-07-08 16:38:24.000000000 +0300
++++ rpmlint-1.7/Pkg.py	2015-07-15 15:10:07.954186622 +0300
+@@ -197,7 +197,7 @@
+     the rpm package (if installed) if no filename is given"""
      groups = []
      if not filename:
-         try:
--            p = InstalledPkg('rpm')
-+            p = InstalledPkg('rpmlint')
-         except:
-             pass
-         else:
+-        with InstalledPkg("rpm") as p:
++        with InstalledPkg("rpmlint") as p:
+             groupsfiles = [x for x in p.files() if x.endswith('/GROUPS')]
+             if groupsfiles:
+                 filename = groupsfiles[0]

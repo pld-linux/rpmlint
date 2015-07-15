@@ -1,5 +1,5 @@
---- rpmlint-1.6/Makefile~	2014-07-19 16:05:09.000000000 +0300
-+++ rpmlint-1.6/Makefile	2014-09-18 15:36:35.380436188 +0300
+--- rpmlint-1.7/Makefile~	2015-07-15 15:10:27.000000000 +0300
++++ rpmlint-1.7/Makefile	2015-07-15 15:12:32.665044829 +0300
 @@ -10,6 +10,7 @@
  LIBDIR=/usr/share/rpmlint
  ETCDIR=/etc
@@ -8,9 +8,9 @@
  
  FILES = rpmlint *.py INSTALL README README.devel COPYING tools/*.py \
  	Makefile config rpmdiff rpmdiff.1 rpmlint.bash-completion rpmlint.1 \
-@@ -41,14 +42,13 @@
- 	cp -p *.py *.pyo $(DESTDIR)$(LIBDIR)
- 	cp -p rpmlint rpmdiff $(DESTDIR)$(BINDIR)
+@@ -48,14 +48,13 @@
+ 		chmod +x $(DESTDIR)$(BINDIR)/$$file ; \
+ 	done
  	cp -p config $(DESTDIR)$(ETCDIR)/$(PACKAGE)
 -	compdir=`pkg-config --variable=completionsdir bash-completion 2>/dev/null` ; \
 -	if [ "x$$compdir" = "x" ] ; then \
@@ -20,10 +20,10 @@
  	else \
 -		mkdir -p $(DESTDIR)$$compdir ; \
 -		cp -p rpmlint.bash-completion $(DESTDIR)$$compdir/rpmlint ; \
--		ln -s rpmlint $(DESTDIR)$$compdir/rpmdiff ; \
-+		mkdir -p $(DESTDIR)$(bash_compdir); \
+-		ln -sf rpmlint $(DESTDIR)$$compdir/rpmdiff ; \
++		mkdir -p $(DESTDIR)$(bash_compdir) ; \
 +		cp -p rpmlint.bash-completion $(DESTDIR)$(bash_compdir)/rpmlint ; \
-+		ln -s rpmlint $(DESTDIR)$(bash_compdir)/rpmdiff ; \
++		ln -sf rpmlint $(DESTDIR)$(bash_compdir)/rpmdiff ; \
  	fi
  	cp -p rpmdiff.1 rpmlint.1 $(DESTDIR)$(MANDIR)/man1
  
