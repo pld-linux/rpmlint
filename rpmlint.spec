@@ -3,6 +3,7 @@
 %bcond_without	tests		# build without tests
 
 Summary:	Tool for checking common errors in RPM packages
+Summary(pl.UTF-8):	Narzędzie do sprawdzania pakietów RPM pod kątem częstych błędów
 Name:		rpmlint
 Version:	1.7
 Release:	2
@@ -25,6 +26,8 @@ BuildRequires:	python-modules
 %{?with_tests:BuildRequires:	python-rpm >= 5.4.10-12}
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.673
+# tests require rpmlint in installed packages database
+%{?with_tests:BuildRequires:	rpmlint}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
 Requires:	/bin/bash
@@ -55,12 +58,16 @@ występujących błędów. Można sprawdzać pakiety źródłowe i binarne.
 
 %package -n bash-completion-%{name}
 Summary:	bash-completion for rpmlint
+Summary(pl.UTF-8):	Bashowe uzupełnianie parametrów dla polecenia rpmlint
 Group:		Applications/Shells
 Requires:	%{name} = %{version}-%{release}
 Requires:	bash-completion >= 2.0
 
 %description -n bash-completion-%{name}
 bash-completion for rpmlint.
+
+%description -n bash-completion-%{name} -l pl.UTF-8
+Bashowe uzupełnianie parametrów dla polecenia rpmlint.
 
 %prep
 %setup -q
