@@ -5,12 +5,12 @@
 Summary:	Tool for checking common errors in RPM packages
 Summary(pl.UTF-8):	Narzędzie do sprawdzania pakietów RPM pod kątem częstych błędów
 Name:		rpmlint
-Version:	1.7
-Release:	2
+Version:	1.9
+Release:	1
 License:	GPL v2
 Group:		Development/Building
-Source0:	http://downloads.sourceforge.net/rpmlint/%{name}-%{version}.tar.xz
-# Source0-md5:	0b78c2fa4a98c6f660003a679ad6ea90
+Source0:	https://github.com/rpm-software-management/rpmlint/archive/%{name}-%{version}.tar.gz
+# Source0-md5:	810d7fd565d389fec305ff80af53ba40
 Source1:	%{name}.config
 Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
@@ -20,7 +20,7 @@ Patch3:		postshell.patch
 Patch4:		rpm5.patch
 Patch5:		bash-completion.patch
 Patch6:		revert-9f71923e.patch
-URL:		http://sourceforge.net/projects/rpmlint/
+URL:		https://github.com/rpm-software-management/rpmlint
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules
 %{?with_tests:BuildRequires:	python-rpm >= 5.4.10-12}
@@ -28,8 +28,6 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.673
 # tests require rpmlint in installed packages database
 %{?with_tests:BuildRequires:	rpmlint}
-BuildRequires:	tar >= 1:1.22
-BuildRequires:	xz
 Requires:	/bin/bash
 Requires:	/lib/cpp
 Requires:	binutils
@@ -70,7 +68,7 @@ bash-completion for rpmlint.
 Bashowe uzupełnianie parametrów dla polecenia rpmlint.
 
 %prep
-%setup -q
+%setup -q -n %{name}-rpmlint-%{version}
 %patch0 -p1
 %patch1 -p1
 %patch2 -p1
@@ -129,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc ChangeLog README* config.example
+%doc README* config.example
 %dir %{_sysconfdir}/rpmlint
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/rpmlint/config
 %attr(755,root,root) %{_bindir}/rpmdiff

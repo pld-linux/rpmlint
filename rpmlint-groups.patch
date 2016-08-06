@@ -1,11 +1,24 @@
---- rpmlint-1.7/Pkg.py~	2015-07-08 16:38:24.000000000 +0300
-+++ rpmlint-1.7/Pkg.py	2015-07-15 15:10:07.954186622 +0300
-@@ -197,7 +197,7 @@
-     the rpm package (if installed) if no filename is given"""
+Use GROUPS file from rpmlint (this project) package rather than rpm
+
+--- rpmlint-rpmlint-1.9/Pkg.py~	2016-06-29 20:07:39.000000000 +0300
++++ rpmlint-rpmlint-1.9/Pkg.py	2016-08-06 12:10:45.102344608 +0300
+@@ -214,16 +214,16 @@
+ def get_default_valid_rpmgroups(filename=None):
+     """
+     Get default rpm groups from filename, or try to look them up from
+-    the rpm package (if installed) if no filename is given.
++    the rpmlint package (if installed) if no filename is given.
+     """
      groups = []
      if not filename:
--        with InstalledPkg("rpm") as p:
-+        with InstalledPkg("rpmlint") as p:
-             groupsfiles = [x for x in p.files() if x.endswith('/GROUPS')]
-             if groupsfiles:
-                 filename = groupsfiles[0]
+         try:
+-            with InstalledPkg("rpm") as p:
++            with InstalledPkg("rpmlint") as p:
+                 groupsfiles = [x for x in p.files() if x.endswith('/GROUPS')]
+                 if groupsfiles:
+                     filename = groupsfiles[0]
+-        except:  # the rpm package might not be installed
++        except:  # the rpmlint package might not be installed
+             pass
+     if filename and os.path.exists(filename):
+         with open(filename) as fobj:
