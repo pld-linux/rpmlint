@@ -117,7 +117,7 @@ touch __init__.py
 %else
 %{__sed} -i -e '1s,/usr/bin/python,%{__python},' rpmdiff rpmlint
 # this syntax is not supported by rpm5?
-%{__rm} test/test.CheckInclude.py test/test_tags.py
+%{__rm} test/test.CheckInclude.py test/test_tags.py test/test_sources.py
 %endif
 
 %build
