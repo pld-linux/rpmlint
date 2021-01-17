@@ -1,16 +1,17 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
+%bcond_with	rpm4		# build for rpm4
 
 Summary:	Tool for checking common errors in RPM packages
 Summary(pl.UTF-8):	Narzędzie do sprawdzania pakietów RPM pod kątem częstych błędów
 Name:		rpmlint
-Version:	1.9
-Release:	1
+Version:	1.11
+Release:	0.6
 License:	GPL v2
 Group:		Development/Building
 Source0:	https://github.com/rpm-software-management/rpmlint/archive/%{name}-%{version}.tar.gz
-# Source0-md5:	810d7fd565d389fec305ff80af53ba40
+# Source0-md5:	2642bb6f08f6e2a2f2c0fe9f07634d49
 Source1:	%{name}.config
 Source3:	%{name}-etc.config
 Patch0:		%{name}-groups.patch
@@ -20,10 +21,18 @@ Patch3:		postshell.patch
 Patch4:		rpm5.patch
 Patch5:		bash-completion.patch
 Patch6:		revert-9f71923e.patch
+Patch7:		rpm4.15.patch
+Patch8:		python3.patch
 URL:		https://github.com/rpm-software-management/rpmlint
+%if %{with rpm4}
+BuildRequires:	python3
+BuildRequires:	python3-modules
+%{?with_tests:BuildRequires:	python3-rpm >= 1:4.16}
+%else
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules
 %{?with_tests:BuildRequires:	python-rpm >= 5.4.10-12}
+%endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.673
 # tests require rpmlint in installed packages database
@@ -38,10 +47,17 @@ Requires:	file
 Requires:	findutils
 Requires:	grep
 Requires:	gzip
+%if %{with rpm4}
+Requires:	python3
+Requires:	python3-magic
+Requires:	python3-pyenchant
+Requires:	python3-rpm >= 1:4.16
+%else
 Requires:	python >= 1.5.2
 Requires:	python-magic
 Requires:	python-pyenchant
 Requires:	python-rpm >= 5.4.10-12
+%endif
 Requires:	xz
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -69,13 +85,18 @@ Bashowe uzupełnianie parametrów dla polecenia rpmlint.
 
 %prep
 %setup -q -n %{name}-rpmlint-%{version}
-%patch0 -p1
+%{!?with_rpm4:%patch0 -p1}
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%patch4 -p1
 %patch5 -p1
+%if %{with rpm4}
+%patch7 -p1
+%patch8 -p1
+%else
+%patch4 -p1
 %patch6 -p1
+%endif
 
 cp -p config config.example
 cp -p %{SOURCE3} config
@@ -83,20 +104,37 @@ cp -p %{SOURCE3} config
 mv %{name} %{name}.py
 %{__sed} -i -e 's,python ./rpmlint,./rpmlint.py,' test.sh
 
-cat <<'EOF' > %{name}
-#!/bin/sh
-exec python -tt -u -O %{py_sitescriptdir}/%{name}/rpmlint.pyc "$@"
-EOF
 touch __init__.py
 
+%if %{with rpm4}
+%{__sed} -i -e '1s,/usr/bin/python,%{__python3},' rpmdiff rpmlint.py
+cat <<'EOF' > %{name}
+#!/bin/sh
+exec %{__python3} -tt -u -O %{py3_sitescriptdir}/%{name}/rpmlint.py "$@"
+EOF
+%else
+%{__sed} -i -e '1s,/usr/bin/python,%{__python},' rpmdiff rpmlint.py
+cat <<'EOF' > %{name}
+#!/bin/sh
+exec %{__python} -tt -u -O %{py_sitescriptdir}/%{name}/rpmlint.pyc "$@"
+EOF
+%endif
+
 %build
+%if %{without rpm4}
 # Create GROUPS for -groups.patch
 rpmnv=$(rpm -q rpm --qf '%{N}-%{V}')
 gzip -dc "%{_docdir}/$rpmnv/groups.gz" | awk '/^[A-Z].*/ { print }' > GROUPS
 test -s GROUPS
+%endif
 
 %{__make} \
 	bash_compdir=%{bash_compdir} \
+%if %{with rpm4}
+	PYTHON=%{__python3} \
+%else
+	PYTHON=%{__python} \
+%endif
 	COMPILE_PYC=1
 
 %if %{with tests}
@@ -107,20 +145,28 @@ test -s GROUPS
 rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	bash_compdir=%{bash_compdir} \
+%if %{with rpm4}
+	PYTHON=%{__python3} \
+	LIBDIR=%{py3_sitescriptdir}/%{name} \
+%else
+	PYTHON=%{__python} \
+	LIBDIR=%{py_sitescriptdir}/%{name} \
+%endif
 	ETCDIR=%{_sysconfdir} \
 	MANDIR=%{_mandir} \
-	LIBDIR=%{py_sitescriptdir}/%{name} \
 	BINDIR=%{_bindir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-install -p %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
+#install -p %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
-cp -p GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}
+%{!?with_rpm4:cp -p GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/config
 
+%if %{without rpm4}
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_comp $RPM_BUILD_ROOT%{py_sitescriptdir}
 %py_postclean
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -135,10 +181,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/rpmdiff.1*
 %{_mandir}/man1/rpmlint.1*
 %dir %{_datadir}/%{name}
-%{_datadir}/%{name}/GROUPS
 %{_datadir}/%{name}/config
+%if %{with rpm4}
+%dir %{py3_sitescriptdir}/%{name}
+%{py3_sitescriptdir}/%{name}/__pycache__
+%{py3_sitescriptdir}/%{name}/*.py
+%else
 %dir %{py_sitescriptdir}/%{name}
 %{py_sitescriptdir}/%{name}/*.py[co]
+%{_datadir}/%{name}/GROUPS
+%endif
 
 %files -n bash-completion-%{name}
 %defattr(644,root,root,755)

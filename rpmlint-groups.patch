@@ -17,8 +17,8 @@ Use GROUPS file from rpmlint (this project) package rather than rpm
                  groupsfiles = [x for x in p.files() if x.endswith('/GROUPS')]
                  if groupsfiles:
                      filename = groupsfiles[0]
--        except:  # the rpm package might not be installed
-+        except:  # the rpmlint package might not be installed
+-        except KeyError:  # the rpm package might not be installed
++        except KeyError:  # the rpmlint package might not be installed
              pass
      if filename and os.path.exists(filename):
          with open(filename) as fobj:

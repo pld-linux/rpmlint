@@ -6,7 +6,7 @@
  MANDIR=/usr/share/man
 +bash_compdir=$(shell pkg-config --variable=completionsdir bash-completion 2>/dev/null)
  
- FILES = rpmlint *.py INSTALL README README.devel COPYING tools/*.py \
+ FILES = rpmlint *.py INSTALL README.md README.devel COPYING tools/*.py \
  	Makefile config rpmdiff rpmdiff.1 rpmlint.bash-completion rpmlint.1 \
 @@ -48,14 +48,13 @@
  		chmod +x $(DESTDIR)$(BINDIR)/$$file ; \
