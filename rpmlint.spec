@@ -7,7 +7,7 @@ Summary:	Tool for checking common errors in RPM packages
 Summary(pl.UTF-8):	Narzędzie do sprawdzania pakietów RPM pod kątem częstych błędów
 Name:		rpmlint
 Version:	1.11
-Release:	0.6
+Release:	0.7
 License:	GPL v2
 Group:		Development/Building
 Source0:	https://github.com/rpm-software-management/rpmlint/archive/%{name}-%{version}.tar.gz
@@ -23,20 +23,28 @@ Patch5:		bash-completion.patch
 Patch6:		revert-9f71923e.patch
 Patch7:		rpm4.15.patch
 Patch8:		python3.patch
+Patch9:		libc-warnings.patch
+Patch10:	fix-tests.patch
 URL:		https://github.com/rpm-software-management/rpmlint
 %if %{with rpm4}
 BuildRequires:	python3
 BuildRequires:	python3-modules
-%{?with_tests:BuildRequires:	python3-rpm >= 1:4.16}
+%if %{with tests}
+BuildRequires:	python3-pytest
+BuildRequires:	python3-flake8
+BuildRequires:	python3-rpm >= 1:4.16
+%endif
 %else
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules
-%{?with_tests:BuildRequires:	python-rpm >= 5.4.10-12}
+%if %{with tests}
+BuildRequires:	python-flake8
+BuildRequires:	python-pytest
+BuildRequires:	python-rpm >= 5.4.10-12}
+%endif
 %endif
 BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.673
-# tests require rpmlint in installed packages database
-%{?with_tests:BuildRequires:	rpmlint}
 Requires:	/bin/bash
 Requires:	/lib/cpp
 Requires:	binutils
@@ -97,27 +105,17 @@ Bashowe uzupełnianie parametrów dla polecenia rpmlint.
 %patch4 -p1
 %patch6 -p1
 %endif
+%patch9 -p1
+%patch10 -p1
 
 cp -p config config.example
 cp -p %{SOURCE3} config
 
-mv %{name} %{name}.py
-%{__sed} -i -e 's,python ./rpmlint,./rpmlint.py,' test.sh
-
 touch __init__.py
-
 %if %{with rpm4}
-%{__sed} -i -e '1s,/usr/bin/python,%{__python3},' rpmdiff rpmlint.py
-cat <<'EOF' > %{name}
-#!/bin/sh
-exec %{__python3} -tt -u -O %{py3_sitescriptdir}/%{name}/rpmlint.py "$@"
-EOF
+%{__sed} -i -e '1s,/usr/bin/python,%{__python3},' rpmdiff rpmlint
 %else
-%{__sed} -i -e '1s,/usr/bin/python,%{__python},' rpmdiff rpmlint.py
-cat <<'EOF' > %{name}
-#!/bin/sh
-exec %{__python} -tt -u -O %{py_sitescriptdir}/%{name}/rpmlint.pyc "$@"
-EOF
+%{__sed} -i -e '1s,/usr/bin/python,%{__python},' rpmdiff rpmlint
 %endif
 
 %build
@@ -138,7 +136,16 @@ test -s GROUPS
 	COMPILE_PYC=1
 
 %if %{with tests}
-%{__make} check
+%{__make} check \
+%if %{with rpm4}
+	PYTHON=%{__python3} \
+	PYTEST=py.test-3 \
+	FLAKE8=flake8-3 \
+%else
+	PYTHON=%{__python} \
+	PYTEST=py.test \
+	FLAKE8=flake8 \
+%endif
 %endif
 
 %install
@@ -157,10 +164,23 @@ rm -rf $RPM_BUILD_ROOT
 	BINDIR=%{_bindir} \
 	DESTDIR=$RPM_BUILD_ROOT
 
-#install -p %{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
+%if %{with rpm4}
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/rpmlint $RPM_BUILD_ROOT%{py3_sitescriptdir}/%{name}/rpmlint.py
+cat <<'EOF' > $RPM_BUILD_ROOT%{_bindir}/rpmlint
+#!/bin/sh
+exec %{__python3} -tt -u -O %{py3_sitescriptdir}/%{name}/rpmlint.py "$@"
+EOF
+%else
+%{__mv} $RPM_BUILD_ROOT%{_bindir}/rpmlint $RPM_BUILD_ROOT%{py_sitescriptdir}/%{name}/rpmlint.py
+cat <<'EOF' > $RPM_BUILD_ROOT%{_bindir}/rpmlint
+#!/bin/sh
+exec %{__python} -tt -u -O %{py_sitescriptdir}/%{name}/rpmlint.pyc "$@"
+EOF
+%endif
+
 install -d $RPM_BUILD_ROOT%{_datadir}/%{name}
-%{!?with_rpm4:cp -p GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}}
 cp -p %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/%{name}/config
+%{!?with_rpm4:cp -p GROUPS $RPM_BUILD_ROOT%{_datadir}/%{name}}
 
 %if %{without rpm4}
 %py_ocomp $RPM_BUILD_ROOT%{py_sitescriptdir}
