@@ -1,7 +1,7 @@
 #
 # Conditional build:
 %bcond_without	tests		# build without tests
-%bcond_with	rpm4		# build for rpm4
+%bcond_without	rpm4		# build for rpm4
 
 Summary:	Tool for checking common errors in RPM packages
 Summary(pl.UTF-8):	Narzędzie do sprawdzania pakietów RPM pod kątem częstych błędów
