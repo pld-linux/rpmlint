@@ -5,12 +5,12 @@
 Summary:	Tool for checking common errors in RPM packages
 Summary(pl.UTF-8):	Narzędzie do sprawdzania pakietów RPM pod kątem częstych błędów
 Name:		rpmlint
-Version:	2.2.0
+Version:	2.6.1
 Release:	1
 License:	GPL v2
 Group:		Development/Building
 Source0:	https://github.com/rpm-software-management/rpmlint/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	66a1c5650724bb2e5ef73cc758607e04
+# Source0-md5:	767e7fa006cb7cbc7101a867d57de6a1
 Source1:	licenses.toml
 Source2:	pld.toml
 Source3:	scoring.toml
