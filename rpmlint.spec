@@ -22,6 +22,7 @@ BuildRequires:	python3-modules
 BuildRequires:	python3-flake8
 BuildRequires:	python3-pytest
 BuildRequires:	python3-rpm >= 1:4.16
+BuildRequires:	python3-setuptools
 BuildRequires:	python3-zstd
 %endif
 BuildRequires:	rpm-pythonprov
@@ -30,7 +31,9 @@ Requires:	/bin/bash
 Requires:	/lib/cpp
 Requires:	binutils
 Requires:	bzip2
+Requires:	checkbashisms
 Requires:	cpio
+Requires:	dash
 Requires:	desktop-file-utils
 Requires:	file
 Requires:	findutils
